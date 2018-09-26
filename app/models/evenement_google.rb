@@ -1,0 +1,2 @@
+class EvenementGoogle < ApplicationRecord
+end
