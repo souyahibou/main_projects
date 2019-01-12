@@ -1,28 +1,32 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This repository represents three main service scripts for collecting data from different platforms.
 
 Things you may want to cover:
 
-* Ruby version
+* Uses Ruby version 2.4.2 or newwest
 
-* System dependencies
+* Configuration: all three applications need their own configurations
 
-* Configuration
+* Database: run `$ rails db:migrate && rails db:migrate` for google_cal
+* Browser:  install Mozilla/chrome webdriver to run watir for urls_pros
+* FacebookAPI: configure facebook account to get token for fb_pros
 
-* Database creation
+* No tests
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
+* Services:
+ Can be run directly by instance methods
+  - `ScrapGoogleCal.new.perform`
+  - `ScrapFbPros.new.perform`
+  - `ScrapUrlsPros.new.perform`
 
 * Deployment instructions
+  - Voir heroku scheduler(jobs)
+  - Voir Configuration de watir
 
 * ...
-# Scrapping_Professors1
+
+# Collectes des Événements depuis les sites professionnels, Facebook et Google Calendar
 
 
 # Tutoriel des fonctionnalités:
@@ -31,6 +35,7 @@ Things you may want to cover:
 ```
 /app/services/scrap_fb_pros.rb
 /app/services/scrap_urls_pros.rb
+/app/services/scrap_google_cal.rb
 /config/application.yml
 ```
  <!-- ENV["token"]
@@ -58,18 +63,20 @@ Things you may want to cover:
 /db/schema.rb
 ```
 
+## gems utilisées:
 ```ruby
 */Gemfile*
 gem 'activerecord-diff'           #ajout
-gem "figaro"			                   #ajout
+gem "figaro"			                #ajout
 
-gem "google_drive"                #ajout
-gem 'watir'                       #ajout
-gem 'nokogiri'           	        #ajout
+gem "google_drive"                #ajout  google account connection
+gem 'watir'                       #ajout  for web automation/simulation
+gem 'nokogiri'           	        #ajout  for web Parsing
 
-gem "koala"			                    #ajout  gem facebook
+gem "koala"			                  #ajout  gem facebook
 ```
 
+## requêtes exécutés:
 ```ruby
 /config/routes.rb
 get  'scrappings/search2'
@@ -85,14 +92,14 @@ root 'scrappings#home'
 * étape n°3 :Lancer le programme principal:                       ScrapFbPros.new.perform
 
 
-## pour récupérer un token via ScrapFbPros.new.get_token:
+## Pour récupérer un token via ScrapFbPros.new.get_token:
 
 ```ruby
 1 mettre ses identifiant Facebook
             ENV["FACEBOOK_EMAIL"]
             ENV["FACEBOOK_MDP"]
 2 copié le nouveau token et remplacer l'ancien token de la variable environnement ENV["token"] par le nouveau token récupéré. Ce token est valide pendant 6mois.
-            2 bis possibilité d'utiliser le token disponible via l'interface API graph facebook, celui-ci est valide pendant 1 heure. 
+            2 bis possibilité d'utiliser le token disponible via l'interface API graph facebook, celui-ci est valide pendant 1 heure.
 ```
 
 # Les Scripts:
@@ -101,9 +108,3 @@ root 'scrappings#home'
 * 1 : scrap_fb_pros.rb
 * 2 : scrap_google_cal.rb
 * 3 : scrap_urls_pros.rb
-
-
-
-
-
-
